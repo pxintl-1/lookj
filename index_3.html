@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Private Chat - Config Pro Dashboard</title>
+    <!-- 引入獨立的 CSS 樣式表 -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <input type="file" id="hiddenFileInput" accept="image/*" style="display: none;">
+    <input type="file" id="bgImageFileInput" accept="image/*" style="display: none;">
+    <input type="file" id="jsonFileInput" accept=".json" style="display: none;">
+
+    <div class="chat-container" id="mainChatWindow">
+
+        <!-- 頂欄 -->
+        <div class="chat-header" id="chatHeaderBar">
+            <div class="header-left" id="headerLeftArea">
+                <div class="avatar-box" id="headerOtherAvatar">小</div>
+                <div class="header-title-wrap">
+                    <span class="header-title" id="chatTitle">小鳥丸</span>
+                    <span class="arrow-down">▼</span>
+                </div>
+            </div>
+            
+            <div class="header-center-actions">
+                <div class="icon-svg-btn" id="configBtn" title="配置設定">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                </div>
+                <div class="icon-svg-btn" id="themeBtn">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.22" x2="5.64" y2="17.78"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                </div>
+                <div class="icon-svg-btn" id="callBtn">
+                    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 .81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                </div>
+            </div>
+
+            <div class="header-right" id="headerRightArea">
+                <div class="my-info-block">
+                    <span class="my-name" id="headerMyName">晴時雨</span>
+                </div>
+                <div class="avatar-box" id="headerMyAvatar">晴</div>
+            </div>
+        </div>
+        
+        <!-- 訊息流 -->
+        <div class="message-area" id="messageArea"></div>
+
+        <!-- 正在輸入提示 -->
+        <div class="typing-bar-sticky" id="typingBarSticky">
+            <div class="typing-bubble-sticky">
+                <span id="typingNameText">小鳥丸</span> 正在輸入中
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+
+        <!-- 輸入欄 -->
+        <div class="input-area">
+            <input type="text" class="message-input" id="messageInput" placeholder="輸入消息...">
+            <div class="force-trigger-btn" id="forceTriggerBtn" title="強制對方開啟新話題">⚡</div>
+            <div class="bottom-action-btn" id="sendMsgBtn">
+                <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </div>
+        </div>
+
+        <!-- 配置中心面版 -->
+        <div class="modal-overlay" id="prefModalOverlay">
+            <div class="pref-panel" id="prefPanelContainer">
+                <div class="panel-top-bar">
+                    <span class="panel-main-title" id="panelNavTitle">配置控制中心</span>
+                    <button class="panel-save-btn" id="panelCloseBtn">完成</button>
+                </div>
+
+                <!-- 第一層視窗 -->
+                <div class="panel-view-segment active" id="segmentMainMenu">
+                    <div class="main-menu-list">
+                        <div class="menu-nav-item" id="navToCardManage">
+                            <span>📥 字卡管理</span>
+                            <span class="nav-arrow">＞</span>
+                        </div>
+                        <div class="menu-nav-item" id="navToChatAdjust">
+                            <span>💬 聊天調整</span>
+                            <span class="nav-arrow">＞</span>
+                        </div>
+                        <div class="menu-nav-item" id="navToBgAdjust">
+                            <span>🖼️ 背景圖調整</span>
+                            <span class="nav-arrow">＞</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第二層視窗 A -->
+                <div class="panel-view-segment" id="segmentCardManage">
+                    <div class="panel-action-toolbar">
+                        <div class="toolbar-btn" id="backToMenuFromCard">← 返回主菜單</div>
+                        <div class="toolbar-btn" id="selectAllCardsBtn">全选</div>
+                        <div class="toolbar-btn" id="deselectAllCardsBtn">取消</div>
+                        <div class="toolbar-btn danger" id="deleteSelectedCardsBtn">删除</div>
+                    </div>
+                    <div class="panel-body-scroll">
+                        <div class="section-box">
+                            <div class="section-label">字卡文本录入区</div>
+                            <div class="group-row">
+                                <select class="group-dropdown" id="groupDropdown">
+                                    <option value="預設分組">預設分組</option>
+                                </select>
+                                <span class="add-group-text" id="addNewGroupBtn">+ 新增分组</span>
+                            </div>
+                            <textarea class="import-textarea" id="importTextarea" placeholder="每行輸入句文本，換行自動分割..."></textarea>
+                        </div>
+                        <div class="loaded-cards-container" id="loadedCardsContainer"></div>
+                    </div>
+                    <div class="panel-bottom-action-bar">
+                        <div class="bottom-action-btn-main highlight" id="importJsonBtn">導入 JSON 檔案</div>
+                        <div class="bottom-action-btn-main" id="injectBtn">注入新字卡</div>
+                    </div>
+                </div>
+
+                <!-- 第二層視窗 B -->
+                <div class="panel-view-segment" id="segmentChatAdjust">
+                    <div class="panel-action-toolbar">
+                        <div class="toolbar-btn" id="backToMenuFromChat">← 返回主菜單</div>
+                    </div>
+                    <div class="panel-body-scroll">
+                        <div class="section-box">
+                            <div class="section-label">個人與對手名稱設定</div>
+                            <input type="text" class="panel-input-field" id="inputMyNameForm" placeholder="我方暱稱">
+                            <input type="text" class="panel-input-field" id="inputOtherNameForm" placeholder="對方備註名稱">
+                        </div>
+                        <div class="section-box">
+                            <div class="section-label">聊天回覆速度 (隨機範圍秒數)</div>
+                            <div class="range-inputs-flex">
+                                <input type="number" class="panel-input-field" id="speedMinInput" min="1" placeholder="最少秒數">
+                                <span style="color:var(--text-muted); font-size:13px; padding-bottom:12px;">至</span>
+                                <input type="number" class="panel-input-field" id="speedMaxInput" min="1" placeholder="最多秒數">
+                                <span style="color:var(--text-muted); font-size:13px; padding-bottom:12px;">秒</span>
+                            </div>
+                        </div>
+                        <div class="section-box switch-row">
+                            <div>
+                                <div style="font-size: 14px; font-weight: bold; margin-bottom: 2px;">允許對方主動發送訊息</div>
+                                <div style="font-size: 11px; color: var(--text-muted);">開啟後，無對話時對方會定時主動找話題</div>
+                            </div>
+                            <label class="switch-container">
+                                <input type="checkbox" id="allowInitiativeSwitch">
+                                <span class="switch-slider"></span>
+                            </label>
+                        </div>
+                        <div class="section-box" id="initiativeTimeSubfield" style="display: none;">
+                            <div class="section-label">主動發送時間限制 (分鐘)</div>
+                            <div class="range-inputs-flex">
+                                <span style="color:var(--text-muted); font-size:13px; padding-bottom:12px;">最多在</span>
+                                <input type="number" class="panel-input-field" id="initiativeMinutesInput" min="1" step="1" value="5" placeholder="分鐘數">
+                                <span style="color:var(--text-muted); font-size:13px; padding-bottom:12px;">分鐘之內主動發送</span>
+                            </div>
+                        </div>
+                        <div class="section-box">
+                            <button class="toolbar-btn" style="width:100%; padding:12px; font-weight:bold; color:var(--accent-green);" id="saveChatAdjustBtn">同步保存上述聊天配置</button>
+                        </div>
+                        <div class="section-box">
+                            <div class="section-label">對話模擬數據</div>
+                            <button class="toolbar-btn danger" style="width:100%; padding:10px;" id="clearChatLogsBtn">清除當前全螢幕聊天紀錄</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第二層視窗 C -->
+                <div class="panel-view-segment" id="segmentBgAdjust">
+                    <div class="panel-action-toolbar">
+                        <div class="toolbar-btn" id="backToMenuFromBg">← 返回主菜單</div>
+                    </div>
+                    <div class="panel-body-scroll">
+                        <div class="section-box">
+                            <div class="section-label">視窗主背景圖片</div>
+                            <div class="bg-preview-box" id="bgPreviewContainer">暫無自訂背景圖</div>
+                            <button class="toolbar-btn" style="width:100%; padding:10px; margin-bottom:12px;" id="uploadBgBtn">上傳並套用新背景圖片</button>
+                            <button class="toolbar-btn danger" style="width:100%; padding:10px;" id="resetBgBtn">還原預設純黑底色</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 全螢幕大通話畫面 -->
+        <div class="full-call-screen" id="fullCallScreen">
+            <div class="full-call-center">
+                <div class="full-call-avatar" id="fullCallAvatar"></div>
+                <div class="full-call-name" id="fullCallName">小鳥丸</div>
+                <div class="full-call-timer" id="fullCallTimer">等待接聽...</div>
+            </div>
+            <div class="full-call-actions" id="fullCallActionsArea">
+                <button class="round-action-btn btn-hangup" id="hangupCallBtn">
+                    <svg viewBox="0 0 24 24" style="transform: rotate(135deg);"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.57a.988.988 0 0 0-1.01.24l-2.2 2.2a15.045 15.045 0 0 1-6.59-6.59l2.2-2.2c.28-.28.36-.67.25-1.02A11.36 11.36 0 0 1 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.59c0-.55-.45-1-1-1z"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入獨立的 JavaScript 邏輯 -->
+    <script src="script.js"></script>
+</body>
+</html>
