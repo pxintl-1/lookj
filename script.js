@@ -1,6 +1,6 @@
 // 全局狀態變數
-let otherProfile = { name: '小鳥丸', imgData: null };
-let myProfile = { name: '晴時雨', imgData: null };
+let otherProfile = { name: '夢角', imgData: null };
+let myProfile = { name: '我', imgData: null };
 let chatHistory = [];
 let replySpeedConfig = { min: 2, max: 5 };
 let allowInitiativeMessage = false;
